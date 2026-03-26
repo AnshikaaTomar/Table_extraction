@@ -1,4 +1,6 @@
 import os
+import numpy as np
+from PIL import Image
 from config import input_dir, output_dir, supported_formats
 from img_preprocessor import preprocess, extract_text
 from clean_text import clean_text
@@ -23,7 +25,13 @@ def process_file(filepath):
         if i == 0:
             pil_image = crop_header(pil_image)
 
-        tables = detect_and_extract_tables(pil_image)
+        tables, table_mask = detect_and_extract_tables(pil_image)
+        # Mask out table regions before regular OCR
+        if table_mask is not None:
+            img_arr = np.array(pil_image)
+            img_arr[table_mask > 0] = 255  # white out table area
+            pil_image = Image.fromarray(img_arr)
+
         processed = preprocess(pil_image)
         text = extract_text(processed)
         text = clean_text(text)
