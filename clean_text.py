@@ -32,7 +32,7 @@ def find_end_index(lines):
                 break
             return end_index
 
-        # Designation line without Dr. prefix
+        # Designation line
         if re.search(r"(Chairperson|नोडल\s+अधिकारी|In-Charge|Prof\.|Finance\s+Officer|Hostel\s+Warden|कुलसचिव|निदेशक)", stripped):
             for j in range(i - 1, max(i - 5, -1), -1):
                 prev = lines[j].strip()
@@ -42,9 +42,9 @@ def find_end_index(lines):
                     return j
                 else:
                     return i
-                break
+            break
 
-        # English distribution list
+        # English distribution list - copy to
         if re.match(r"(?i)c[o0]py\s*t[o0]\s*[:\-]?", stripped):
             return i
 

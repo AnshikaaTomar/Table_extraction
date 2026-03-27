@@ -1,15 +1,15 @@
 import os
 import platform
-import pytesseract
 
 # path definitions
-base_dir = os.path.dirname(os.path.abspath(__file__))
-input_dir = os.path.join(base_dir, "input")
-output_dir = os.path.join(base_dir, "output")  
+BASE_DIR   = os.path.dirname(os.path.abspath(__file__))
+INPUT_DIR  = os.path.join(BASE_DIR, "input")
+OUTPUT_DIR = os.path.join(BASE_DIR, "output")
 
-poppler_path = POPPLER_PATH = r"C:\\poppler-25.12.0\\Library\\bin" if platform.system() == "Windows" else None
-
-TESSERACT_PATH = r"C:\\Program Files\\Tesseract-OCR\\tesseract.exe" if platform.system() == "Windows" else None
+IS_WINDOWS = platform.system() == "Windows"
+ 
+POPPLER_PATH   = r"C:\poppler-25.12.0\Library\bin" if IS_WINDOWS else None
+TESSERACT_PATH = r"C:\Program Files\Tesseract-OCR\tesseract.exe" if IS_WINDOWS else None
 
 
 # supported formats
