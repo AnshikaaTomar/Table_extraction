@@ -1,13 +1,14 @@
 import os
 import numpy as np
 from PIL import Image
-from config import input_dir, output_dir, supported_formats
+
+from config import INPUT_DIR, OUTPUT_DIR, supported_formats
 from img_preprocessor import preprocess, extract_text
 from clean_text import clean_text
 from file_handling import load_file, crop_header
 from extract import detect_and_extract_tables
 
-
+# File processing 
 def process_file(filepath):
     filename = os.path.basename(filepath)
     name_without_ext = os.path.splitext(filename)[0]
@@ -44,18 +45,18 @@ def process_file(filepath):
         all_text.append(f"--- Page {i + 1} ---\n{page_content}")
 
     final_text = "\n\n".join(all_text)
-    output_path = os.path.join(output_dir, f"{name_without_ext}.txt")
+    output_path = os.path.join(OUTPUT_DIR, f"{name_without_ext}.txt")
     with open(output_path, "w", encoding="utf-8") as f:
         f.write(final_text)
     print(f"  ✓ Saved: {output_path}")
 
-
+# main execution
 if __name__ == "__main__":
-    os.makedirs(output_dir, exist_ok=True)
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
 
     all_files = [
-        os.path.join(input_dir, f)
-        for f in os.listdir(input_dir)
+        os.path.join(INPUT_DIR, f)
+        for f in os.listdir(INPUT_DIR)
         if os.path.splitext(f)[1].lower() in supported_formats
     ]
 
