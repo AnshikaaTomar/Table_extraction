@@ -5,6 +5,7 @@ import pandas as pd
 from PIL import Image
 
 from img_preprocessor import preprocess
+from ocr import extract_cell_text 
 
 # constants
 _SCALE           = 2.0
@@ -77,9 +78,7 @@ def _ocr_cell(cell_img_bgr: np.ndarray) -> str:
         return ""
     cell_pil       = Image.fromarray(cv2.cvtColor(cell_img_bgr, cv2.COLOR_BGR2RGB))
     cell_processed = preprocess(cell_pil)
-    return pytesseract.image_to_string(
-        cell_processed, lang=_OCR_LANG, config=_OCR_CONFIG
-    ).strip()
+    return extract_cell_text(cell_processed)
 
 # main function to detect and extract tables
 def detect_and_extract_tables(pil_image):
