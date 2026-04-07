@@ -88,7 +88,7 @@ def detect_and_extract_tables(pil_image):
 
     # Early exit if no table detected
     if not has_table(gray, w_img):
-        return []
+        return [], None
 
     thresh     = _adaptive_thresh(gray)
     grid       = _build_table_grid(thresh, w_img, h_img)
@@ -167,4 +167,6 @@ def detect_and_extract_tables(pil_image):
         df = pd.DataFrame(table_data)
         tables_text.append(df.to_string(index=False, header=False))
 
-    return tables_text, table_mask if tables_text else []
+    if tables_text:
+        return tables_text, table_mask
+    return [], None

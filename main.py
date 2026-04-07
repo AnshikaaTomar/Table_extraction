@@ -26,7 +26,16 @@ def process_file(filepath):
         if i == 0:
             pil_image = crop_header(pil_image)
 
-        tables = detect_and_extract_tables(pil_image)
+        tables, table_mask = detect_and_extract_tables(pil_image)
+        if table_mask is not None:
+            img_arr = np.array(pil_image)
+            mask_resized = np.array(
+                Image.fromarray(table_mask).resize(
+                    (pil_image.width, pil_image.height), Image.NEAREST
+                )
+            )
+            img_arr[mask_resized > 0] = 255
+            pil_image = Image.fromarray(img_arr)
 
         processed = preprocess(pil_image)
         text = extract_text(processed)
